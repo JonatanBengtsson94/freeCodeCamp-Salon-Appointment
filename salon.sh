@@ -5,7 +5,8 @@ SERVICE_ID_SELECTED=""
 SERVICE_NAME=""
 
 MAIN_MENU() {
-    while true
+    VALID_CHOICE=false
+    while [[ "$VALID_CHOICE" = "false" ]]
     do
         # Show the main menu
         # echo -e "\nMAIN MENU\n"
@@ -17,10 +18,12 @@ MAIN_MENU() {
         # Chose a service
         read SERVICE_ID_SELECTED
         case $SERVICE_ID_SELECTED in
-            1|2|3) SERVICE_NAME=$($PSQL "SELECT name FROM services where service_id = $SERVICE_ID_SELECTED")
-            echo "Selected service: $SERVICE_NAME"
-            break
-            ;;
+            1|2|3)
+                SERVICE_NAME=$($PSQL "SELECT name FROM services where service_id = $SERVICE_ID_SELECTED")
+                echo "Selected service: $SERVICE_NAME"
+                VALID_CHOICE=true
+                return 0
+                ;;
             *) MAIN_MENU  ;;
         esac
     done
@@ -48,5 +51,5 @@ echo "Enter time"
 read SERVICE_TIME
 $PSQL "INSERT INTO appointments(customer_id, service_id) VALUES($CUSTOMER_ID, $SERVICE_ID_SELECTED)"
 
-echo -e "I have put you down for a $NAME at $SERVICE_TIME, $CUSTOMER_NAME."
+echo -e "I have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 
