@@ -49,7 +49,7 @@ else
 fi
 echo "Enter time"
 read SERVICE_TIME
-$PSQL "INSERT INTO appointments(customer_id, service_id) VALUES($CUSTOMER_ID, $SERVICE_ID_SELECTED)"
+$PSQL "INSERT INTO appointments(customer_id, service_id, time) VALUES($CUSTOMER_ID, $SERVICE_ID_SELECTED, '$SERVICE_TIME')"
 
 echo -e "I have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 
